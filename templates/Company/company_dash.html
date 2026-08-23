@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Company Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+
+    <div class="heading">
+        <h2>Company Dashboard</h2>
+        <p>Manage placement drives and review student applications</p>
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Company Details</h5>
+        <p><strong>Name:</strong> {{ company.name }}</p>
+        <p><strong>Email:</strong> {{ company.email }}</p>
+        <p><strong>HR Contact:</strong> {{ company.hr_contact }}</p>
+        <p><strong>Website:</strong> {{ company.website if company.website else "Not Added" }}</p>
+        <p><strong>Status:</strong> {{ company.approval_status }}</p>
+    </div>
+
+    <div class="custom-box mb-4">
+        <div class="d-grid">
+            <a href="{{ url_for('create_drives') }}" class="btn btn-success">Post New Job Position</a>
+        </div>
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Posted Placement Drives</h5>
+        {% if posted_drives %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Job Title</th>
+                <th>Eligibility</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Applicants</th>
+            </tr>
+            {% for drive in posted_drives %}
+            <tr>
+                <td>{{ drive.id }}</td>
+                <td>{{ drive.job_title }}</td>
+                <td>{{ drive.eligibility_criteria }}</td>
+                <td>{{ drive.application_deadline }}</td>
+                <td>{{ drive.status }}</td>
+                <td>
+                    {% if drive.status == "Approved" %}
+                        <a href="{{ url_for('close_drive', drive_id=drive.id) }}" class="btn btn-warning btn-sm">Close Drive</a>
+                    {% elif drive.status == "Closed" %}
+                        <span class="text-muted">Closed</span>
+                    {% else %}
+                        <span class="text-muted">Pending Approval</span>
+                    {% endif %}
+                </td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No placement drives posted yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Received Applications</h5>
+        {% if received_applications %}
+        <table class="table-str">
+            <tr>
+                <th>Application ID</th>
+                <th>Student Name</th>
+                <th>Job Title</th>
+                <th>Application Date</th>
+                <th>Status</th>
+                <th>Resume</th>
+                <th>Action</th>
+            </tr>
+            {% for app in received_applications %}
+            <tr>
+                <td>{{ app.id }}</td>
+                <td>{{ app.student.name }}</td>
+                <td>{{ app.drive.job_title }}</td>
+                <td>{{ app.application_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ app.status }}</td>
+                <td>
+                    {% if app.student.curriculum_vitae %}
+                        <a href="{{ app.student.curriculum_vitae }}" target="_blank">View CV</a>
+                    {% else %}
+                        Not Added
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('update_application_status', app_id=app.id, status='Shortlisted') }}">Shortlist</a> |
+                    <a href="{{ url_for('update_application_status', app_id=app.id, status='Selected') }}">Select</a> |
+                    <a href="{{ url_for('update_application_status', app_id=app.id, status='Rejected') }}">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No applications received yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Shortlisted / Selected Students</h5>
+        {% if shortlisted_applications %}
+        <table class="table-str">
+            <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Degree</th>
+                <th>Job Title</th>
+                <th>Status</th>
+                <th>Resume</th>
+            </tr>
+            {% for app in shortlisted_applications %}
+            <tr>
+                <td>{{ app.student.name }}</td>
+                <td>{{ app.student.email }}</td>
+                <td>{{ app.student.phone }}</td>
+                <td>{{ app.student.degree if app.student.degree else "Not Added" }}</td>
+                <td>{{ app.drive.job_title }}</td>
+                <td>{{ app.status }}</td>
+                <td>
+                    {% if app.student.curriculum_vitae %}
+                        <a href="{{ app.student.curriculum_vitae }}" target="_blank">View CV</a>
+                    {% else %}
+                        Not Added
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No shortlisted or selected students yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

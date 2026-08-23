@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portal{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: whitesmoke;
+            color: black;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .heading h2 {
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .heading p {
+            margin: 0;
+            color: dimgray;
+        }
+
+        .login-box,
+        .registration-box {
+            width: 100%;
+            max-width: 420px;
+            margin: 60px auto;
+            padding: 25px;
+            background-color: white;
+            border: 1px solid lightgray;
+            border-radius: 8px;
+        }
+
+         .custom-box {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: white;
+            border: 1px solid lightgray;
+            border-radius: 8px;
+        }
+
+        .btn {
+            border-radius: 6px;
+        }
+
+        .table-str {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+
+        .table-str th,
+        .table-str td {
+            border: 1px solid lightgray;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .table-str th {
+            background-color: gainsboro;
+        }
+
+        a {
+            color: dimgray;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: black;
+        }
+    </style>
+
+</head>
+<body>
+
+
+<div class="container mt-3">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Page Content -->
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Create Placement Drive{% endblock %}
+
+{% block content %}
+<div class="registration-box" style="max-width: 600px;">
+
+    <div class="heading">
+        <h2>Create Job / Placement Drive</h2>
+        <p>Enter job details to post a new opportunity</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('create_drives') }}">
+
+        <div class="mb-3">
+            <label for="job_title">Job Title</label>
+            <input type="text" id="job_title" name="job_title" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="job_description">Job Description</label>
+            <textarea id="job_description" name="job_description" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="eligibility_criteria">Skills / Eligibility</label>
+            <input type="text" id="eligibility_criteria" name="eligibility_criteria" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="application_deadline">Application Deadline</label>
+            <input type="date" id="application_deadline" name="application_deadline" class="form-control" required>
+        </div>
+
+        <div class="d-grid mt-3">
+            <input type="submit" value="Post Job" class="btn btn-success">
+        </div>
+
+    </form>
+</div>
+{% endblock %}

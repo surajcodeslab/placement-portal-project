@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+<div class="registration-box">
+    <div class="heading">
+        <h2>Student Registration</h2>
+        <p>Create your account to apply for jobs</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('student_register') }}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" id="age" name="age" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label d-block">Gender</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="Male" required>
+                <label for="male">Male</label>
+
+                <input type="radio" id="female" name="gender" value="Female" class="ms-3">
+                <label for="female">Female</label>
+
+                <input type="radio" id="other" name="gender" value="Other" class="ms-3">
+                <label for="other">Other</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="form-control"
+                pattern="[0-9]{10}"
+                maxlength="10"
+                required
+                title="Enter exactly 10 digits">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Create Password</label>
+            <input type="password" id="password" name="password" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Re-enter Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="degree" class="form-label">Degree</label>
+            <input type="text" id="degree" name="degree" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="skills" class="form-label">Skills</label>
+            <input type="text" id="skills" name="skills" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="curriculum_vitae" class="form-label">Curriculum Vitae Drive Link</label>
+            <input type="url" id="curriculum_vitae" name="curriculum_vitae" class="form-control">
+        </div>
+
+        <div class="d-grid mt-3">
+            <input type="submit" value="Register" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+{% endblock %}

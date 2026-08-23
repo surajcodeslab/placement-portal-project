@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <div class="heading">
+        <h2>Admin Login</h2>
+        <p>Login to manage portal activities and approvals</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('admin_login') }}">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password_hash" name="password" class="form-control">
+        </div>
+
+        <div class="d-grid mt-3">
+            <input type="submit" value="Login" class="btn btn-dark">
+        </div>
+    </form>
+</div>
+{% endblock %}

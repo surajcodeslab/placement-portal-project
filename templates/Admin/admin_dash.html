@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+
+    <div class="heading">
+        <h2>Admin Dashboard</h2>
+        <p>Manage companies, placement drives, students, and applications</p>
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Pending Company Registrations</h5>
+        {% if pending_companies %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>HR Contact</th>
+                <th>Status</th>
+                <th>Blacklist</th>
+                <th>Action</th>
+            </tr>
+            {% for company in pending_companies %}
+            <tr>
+                <td>{{ company.id }}</td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.email }}</td>
+                <td>{{ company.hr_contact }}</td>
+                <td>{{ company.approval_status }}</td>
+                <td>{{ company.is_blacklisted }}</td>
+                <td>
+                    <a href="{{ url_for('approve_company', company_id=company.id) }}">Approve</a> |
+                    <a href="{{ url_for('reject_company', company_id=company.id) }}">Reject</a> |
+                    <a href="{{ url_for('blacklist_company', company_id=company.id) }}">Blacklist</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No pending company registrations.</p>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Pending Placement Drives</h5>
+        {% if pending_drives %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            {% for drive in pending_drives %}
+            <tr>
+                <td>{{ drive.id }}</td>
+                <td>{{ drive.company.name }}</td>
+                <td>{{ drive.job_title }}</td>
+                <td>{{ drive.application_deadline }}</td>
+                <td>{{ drive.status }}</td>
+                <td>
+                    <a href="{{ url_for('approve_drive', drive_id=drive.id) }}">Approve</a> |
+                    <a href="{{ url_for('reject_drive', drive_id=drive.id) }}">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No pending placement drives.</p>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>All Applications</h5>
+        {% if applications %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Student</th>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Application Date</th>
+                <th>Status</th>
+            </tr>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.id }}</td>
+                <td>{{ app.student.name }}</td>
+                <td>{{ app.drive.company.name }}</td>
+                <td>{{ app.drive.job_title }}</td>
+                <td>{{ app.application_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ app.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No applications found.</p>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Search Companies</h5>
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" class="mb-3">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" name="company_search" class="form-control" value="{{ company_search }}" placeholder="Search company by id, name, or email">
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" class="btn btn-primary w-100">
+                </div>
+            </div>
+        </form>
+        {% if companies %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Blacklist</th>
+                <th>Action</th>
+            </tr>
+            {% for company in companies %}
+            <tr>
+                <td>{{ company.id }}</td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.email }}</td>
+                <td>{{ company.approval_status }}</td>
+                <td>{{ company.is_blacklisted }}</td>
+                <td>
+                    <a href="{{ url_for('approve_company', company_id=company.id) }}">Approve</a> |
+                    <a href="{{ url_for('reject_company', company_id=company.id) }}">Reject</a> |
+                    <a href="{{ url_for('blacklist_company', company_id=company.id) }}">Blacklist</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="custom-box mb-4">
+        <h5>Search Students</h5>
+        <form method="GET" action="{{ url_for('admin_dashboard') }}" class="mb-3">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" name="student_search" class="form-control" value="{{ student_search }}" placeholder="Search student by id, name, or email">
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" class="btn btn-primary w-100">
+                </div>
+            </div>
+        </form>
+        {% if searched_students %}
+        <table class="table-str">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Degree</th>
+                <th>Blacklist</th>
+                <th>Action</th>
+            </tr>
+            {% for student in searched_students %}
+            <tr>
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.degree }}</td>
+                <td>{{ student.is_blacklisted }}</td>
+                <td>
+                    <a href="{{ url_for('blacklist_student', student_id=student.id) }}">Blacklist</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {%endif %}
+    </div>
+        <div class="custom-box mb-4">
+        <h5>Dashboard Summary</h5>
+        <p>Total Students: {{ total_students }}</p>
+        <p>Total Companies: {{ total_companies }}</p>
+        <p>Total Drives: {{ total_drives }}</p>
+        <p>Total Applications: {{ total_applications }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Registration{% endblock %}
+
+{% block content %}
+<div class="registration-box">
+    <div class="heading">
+        <h2>Company Registration</h2>
+        <p>Create your company account to post placement drives</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('company_register') }}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Company Name</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Company Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="hr_contact" class="form-label">HR Contact No.</label>
+            <input
+                type="tel"
+                id="hr_contact"
+                name="hr_contact"
+                class="form-control"
+                pattern="[0-9]{10}"
+                maxlength="10"
+                required
+                title="Enter exactly 10 digits">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Create Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Re-enter Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="website" class="form-label">Website Link</label>
+            <input type="url" id="website" name="website" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="approval_status" class="form-label">Approval Status</label>
+            <input type="text" id="approval_status" class="form-control" value="Pending" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="is_blacklisted" class="form-label">Blacklisted</label>
+            <input type="text" id="is_blacklisted" class="form-control" value="False" disabled>
+        </div>
+
+        <div class="d-grid mt-3">
+            <input type="submit" value="Register" class="btn btn-success">
+        </div>
+    </form>
+
+    <p class="text-center mt-3 mb-0">
+        Already have an account?
+        <a href="{{ url_for('company_login') }}">Login</a>
+    </p>
+</div>
+{% endblock %}
